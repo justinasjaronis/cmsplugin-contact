@@ -17,9 +17,11 @@ try:
 except ImportError:
     USE_TINYMCE = False
 
-from .models import Contact
+from .models import Contact, ContactEmail
 from .forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
 from .admin import ContactAdminForm
+
+from django.dispatch import receiver
 
 email_sent = dispatch.Signal(providing_args=["data", ])
 
@@ -200,3 +202,10 @@ class ContactPlugin(CMSPluginBase):
 
 
 plugin_pool.register_plugin(ContactPlugin)
+
+
+@receiver(email_sent)
+def handle_signal(sender, **kwargs):
+     print kwargs['data']
+     c = ContactEmail(**kwargs['data'])
+     c.save()

@@ -4,8 +4,9 @@ from django.core.exceptions import ValidationError
 from django.contrib.sites.models import Site
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.contrib import admin
 
-from .models import Contact
+from .models import Contact, ContactEmail
 
 class KeyField(CharField):
     def validate(self, value):
@@ -80,4 +81,7 @@ class ContactAdminForm(ModelForm):
         
         return self.cleaned_data
 
+class ContactEmailAdmin(admin.ModelAdmin):
+    list_display = ['email', 'telephone', 'name', 'subject', 'created']
 
+admin.site.register(ContactEmail, ContactEmailAdmin)

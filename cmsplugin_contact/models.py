@@ -6,6 +6,8 @@ from cms.models import CMSPlugin
 from cmsplugin_contact import settings
 
 
+from pprint import pprint
+    
 class BaseContact(CMSPlugin):
     SPAM_PROTECTION_CHOICES = (
         (0, 'Honeypot'),
@@ -62,3 +64,21 @@ class BaseContact(CMSPlugin):
 
 class Contact(BaseContact):
     pass
+
+
+class ContactEmail(models.Model):
+    content = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=400, null=True, blank=True)
+    my_name = models.CharField(max_length=400, null=True, blank=True)
+    email = models.CharField(max_length=400, null=True, blank=True)
+    subject = models.CharField(max_length=800, null=True, blank=True)
+    telephone = models.CharField(max_length=100, null=True, blank=True)
+    accept_terms = models.BooleanField()
+    created = models.DateTimeField(auto_now_add=True)
+    def __unicode__(self):
+        return unicode(self.email)
+
+
+
+
+
